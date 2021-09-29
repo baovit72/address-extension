@@ -1,8 +1,34 @@
-function injectScript(file, node) {
-  var th = document.getElementsByTagName(node)[0];
-  var s = document.createElement("script");
-  s.setAttribute("type", "text/javascript");
-  s.setAttribute("src", file);
-  th.appendChild(s);
-}
-injectScript(chrome.runtime.getURL("runner.js"), "body");
+console.log("content_script") 
+location.href.includes(".uk/properties/") &&
+  window.addEventListener("load", async function () {
+    console.log("onload")
+    chrome.runtime.onMessage.addListener((message) => {
+      const { matchTransaction, error} = message;
+      console.log(error);
+      if (matchTransaction && matchTransaction.address) {
+        addressElement.innerHTML = matchTransaction.address;
+      } else {
+        addressElement.innerHTML = "ⓧ " + originalAddress;
+      }
+    });
+    const addressElement = document.querySelector(
+      'h1[itemProp="streetAddress"]'
+    );
+    /*UPDATE LOADING*/
+    const originalAddress = addressElement.innerText;
+    addressElement.innerHTML = "... " + originalAddress;
+    /*MAIN*/
+    chrome.runtime.sendMessage(
+      {url: location.href },
+      function (response) {
+        console.log("DONE");
+      }
+    );
+    /*UPDATE RESULT*/
+  });
+
+const sleep = (ms) => {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => resolve(), ms);
+  });
+};
