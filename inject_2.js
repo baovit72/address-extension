@@ -11,7 +11,7 @@ location.href.includes("find.html") &&
     }
     const cards = document.getElementsByClassName("propertyCard-details");
     chrome.runtime.onMessage.addListener((message) => {
-      const { matchTransaction, id, originUrl, originalAddress, error } =
+      const { matchTransaction, id, originUrl, originalAddress, error, area, energyRate } =
         message;
       console.log("error", error);
       if (location.href != originUrl) {
@@ -20,7 +20,7 @@ location.href.includes("find.html") &&
       if (matchTransaction) {
         cards[id].querySelector(
           "address[class='propertyCard-address']"
-        ).innerHTML = matchTransaction.address;
+        ).innerHTML =  area + "-" + energyRate + "-" + matchTransaction.address;
       } else {
         cards[id].querySelector(
           "address[class='propertyCard-address']"
