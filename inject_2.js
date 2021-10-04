@@ -17,14 +17,14 @@ location.href.includes("find.html") &&
       if (location.href != originUrl) {
         return;
       }
-      if (matchTransaction) {
+      if (matchTransaction && matchTransaction.address) {
         cards[id].querySelector(
           "address[class='propertyCard-address']"
-        ).innerHTML =  area + "-" + energyRate + "-" + matchTransaction.address;
+        ).innerHTML = ` [Area: ${area} | EPC: ${energyRate}] ` + matchTransaction.address;
       } else {
         cards[id].querySelector(
           "address[class='propertyCard-address']"
-        ).innerHTML = "ⓧ " + originalAddress;
+        ).innerHTML = "❓ " + originalAddress;
       }
     });
     for (var i = 0; i < cards.length; i++) {

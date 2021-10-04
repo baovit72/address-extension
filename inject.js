@@ -7,9 +7,9 @@ location.href.includes(".uk/properties/") &&
       console.log(error);
       if (matchTransaction && matchTransaction.address) {
         addressElement.innerHTML =
-          area + "-" + energyRate + "-" + matchTransaction.address;
+        ` [Area: ${area} | EPC: ${energyRate}] ` + matchTransaction.address;
       } else {
-        addressElement.innerHTML = "ⓧ " + originalAddress;
+        addressElement.innerHTML = "❓ " + originalAddress;
       }
     });
     const addressElement = document.querySelector(

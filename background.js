@@ -105,6 +105,13 @@ chrome.runtime.onMessage.addListener(async (message, sender) => {
     let energyRate = "";
     let area = "";
     if (matchTransaction && matchTransaction.address) {
+      function isNumeric(str) {
+        if (typeof str != "string") return false; // we only process strings!
+        return (
+          !isNaN(str) && // use type coercion to parse the _entirety_ of the string (`parseFloat` alone does not do this)...
+          !isNaN(parseFloat(str))
+        ); // ...and ensure strings of whitespace fail
+      }
       let eList = [];
       try {
         let rawEnergyHtml = await getEnergyRaw(post_code.replace("-", ""));
@@ -133,13 +140,14 @@ chrome.runtime.onMessage.addListener(async (message, sender) => {
             rate: match[3],
           };
         });
-        const houseObject = eList.find(
+        const houseObjects = eList.filter(
           (item) => item.address === /\d+/.exec(matchTransaction.address)[0]
         );
+        const houseObject = houseObjects.length === 1 ? houseObjects[0] : null;
         energyRate = houseObject.rate;
-        const areaHtml  = await getAreaRaw(houseObject.href);
-        area  = /(\d+) square metres/.exec(areaHtml)[1] + 'm2';
-        
+        const areaHtml = await getAreaRaw(houseObject.href);
+        area = /(\d+) square metres/.exec(areaHtml)[1] + "m2";
+
         console.log(energyRate);
         console.log(area);
       } catch (e) {}
