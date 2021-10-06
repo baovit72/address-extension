@@ -7,7 +7,7 @@ location.href.includes(".uk/properties/") &&
       console.log(error);
       if (matchTransaction && matchTransaction.address) {
         addressElement.innerHTML =
-        ` [Area: ${area} | EPC: ${energyRate}] ` + matchTransaction.address;
+        (area && energyRate && area.length && energyRate.length && ` [Area: ${area} | EPC: ${energyRate}] ` || '') + matchTransaction.address;
       } else {
         addressElement.innerHTML = "❓ " + originalAddress;
       }
@@ -16,7 +16,7 @@ location.href.includes(".uk/properties/") &&
       'h1[itemProp="streetAddress"]'
     );
     /*UPDATE LOADING*/
-    const originalAddress = addressElement.innerText;
+    const originalAddress = addressElement.innerText; 
     addressElement.innerHTML = "... " + originalAddress;
     /*MAIN*/
     chrome.runtime.sendMessage({ url: location.href }, function (response) {
