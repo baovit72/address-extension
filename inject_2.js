@@ -24,16 +24,23 @@ location.href.includes("find.html") &&
       if (location.href != originUrl) {
         return;
       }
+      var d = document.createElement("strong");
+      d.innerHTML = "";
       if (matchTransaction && matchTransaction.address) {
-        cards[id].querySelector(
-          "address[class='propertyCard-address']"
-        ).innerHTML =
-        (area && energyRate && area.length && energyRate.length && ` [Area: ${area} | EPC: ${energyRate}] ` || '') + matchTransaction.address;
+        d.innerHTML =
+          ((area &&
+            energyRate &&
+            area.length &&
+            energyRate.length &&
+            ` [Area: ${area} | EPC: ${energyRate}] `) ||
+            "") + matchTransaction.address;
       } else {
-        cards[id].querySelector(
-          "address[class='propertyCard-address']"
-        ).innerHTML = "❓ " + originalAddress;
+        d.innerHTML = "❓ " + originalAddress;
       }
+      const addressElement = cards[id].querySelector(
+        "address[class='propertyCard-address']"
+      );
+      addressElement.parentNode.replaceChild(d, addressElement);
     });
     for (var i = 0; i < cards.length; i++) {
       try {
@@ -41,9 +48,9 @@ location.href.includes("find.html") &&
         const initAddress = card.querySelector(
           "address[class='propertyCard-address']"
         ).innerText;
-      
-        card.querySelector("address[class='propertyCard-address']").innerHTML =
-          "... " + initAddress;
+
+        // card.querySelector("address[class='propertyCard-address']").innerHTML =
+        //   "... " + initAddress;
         const url = card.querySelector("a[class='propertyCard-link']").href;
         chrome.runtime.sendMessage(
           {

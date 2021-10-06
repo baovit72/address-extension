@@ -5,18 +5,28 @@ location.href.includes(".uk/properties/") &&
     chrome.runtime.onMessage.addListener((message) => {
       const { matchTransaction, error, area, energyRate } = message;
       console.log(error);
+      
+      var d = document.createElement("strong");
+      d.innerHTML = "";
+
       if (matchTransaction && matchTransaction.address) {
-        addressElement.innerHTML =
-        (area && energyRate && area.length && energyRate.length && ` [Area: ${area} | EPC: ${energyRate}] ` || '') + matchTransaction.address;
+        d.innerHTML =
+          ((area &&
+            energyRate &&
+            area.length &&
+            energyRate.length &&
+            ` [Area: ${area} | EPC: ${energyRate}] `) ||
+            "") + matchTransaction.address;
       } else {
-        addressElement.innerHTML = "❓ " + originalAddress;
+        d.innerHTML = "❓ " + originalAddress;
       }
+      addressElement.parentNode.replaceChild(d, addressElement);
     });
     const addressElement = document.querySelector(
       'h1[itemProp="streetAddress"]'
     );
     /*UPDATE LOADING*/
-    const originalAddress = addressElement.innerText; 
+    const originalAddress = addressElement.innerText;
     addressElement.innerHTML = "... " + originalAddress;
     /*MAIN*/
     chrome.runtime.sendMessage({ url: location.href }, function (response) {
