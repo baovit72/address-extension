@@ -1,26 +1,28 @@
 {
-  "name": "ADDRESS HELPER",
-  "description": "ADDRESS HELPER",
-  "version": "1.0",
-  "manifest_version": 3,
-  "background": {
-    "service_worker": "background.js"
-  },
+    "name": "Address Helper for RightMove",
+    "description": "Address Helper for RightMove",
+    "version": "1.0",
+    "manifest_version": 3,
+    "background": {
+        "service_worker": "background.js"
+    },
 
-  "permissions": ["storage", "activeTab", "scripting"],
-  "host_permissions": ["https://*.communities.gov.uk/*","https://www.rightmove.co.uk/*", "https://rightmove.co.uk/*"],
-  "content_scripts": [
-    {
-      "matches": ["https://www.rightmove.co.uk/*", "https://rightmove.co.uk/*"],
-      "js": ["inject.js", "inject_2.js"],
-      "css" : ["custom.css"]
+    "permissions": ["storage", "activeTab", "scripting", "browsingData"],
+    "host_permissions": [
+        "https://*.communities.gov.uk/*",
+        "https://*.service.gov.uk/*",
+        "https://www.rightmove.co.uk/*",
+        "https://rightmove.co.uk/*"
+    ],
+    "content_scripts": [{
+        "matches": ["https://www.rightmove.co.uk/*", "https://rightmove.co.uk/*"],
+        "js": ["inject.js", "inject_2.js"],
+        "css": ["custom.css"]
+    }],
+    "icons": {
+        "16": "/images/icon.png",
+        "32": "/images/icon.png",
+        "48": "/images/icon.png",
+        "128": "/images/icon.png"
     }
-  ],
-  "icons": {
-    "16": "/images/get_started16.png",
-    "32": "/images/get_started32.png",
-    "48": "/images/get_started48.png",
-    "128": "/images/get_started128.png"
-  },
-  "options_page": "options.html"
 }
