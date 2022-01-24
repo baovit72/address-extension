@@ -21,7 +21,7 @@ location.href.includes("find.html") &&
                 area,
                 energyRate,
             } = message;
-            console.log("error", error);
+            //console.log("error", error);
             if (location.href != originUrl) {
                 return;
             }
@@ -51,23 +51,37 @@ location.href.includes("find.html") &&
                 const initAddress = card.querySelector(
                     "address.propertyCard-address"
                 ).innerText;
+                const initAddressHtml = card.querySelector(
+                    "address.propertyCard-address"
+                ).innerHTML;
 
-                // card.querySelector("address[class='propertyCard-address']").innerHTML =
-                //   "... " + initAddress;
+                card.querySelector("address.propertyCard-address").innerHTML =
+                    `<span style='color:red;'>... </span>` + initAddressHtml;
+
                 const url = card.querySelector("a.propertyCard-link").href;
-
-                chrome.runtime.sendMessage({
-                        url: url,
-                        payload: {
-                            id: i,
-                            originUrl: location.href,
-                            originalAddress: initAddress,
-                        },
+                const data = {
+                    url: url,
+                    payload: {
+                        id: i,
+                        originUrl: location.href,
+                        originalAddress: initAddress,
                     },
-                    function(response) {
-                        console.log("DONE");
-                    }
-                );
-            } catch (e) { console.log(e) }
+                }
+                const r = await sendMessage(data);
+                // console.log(r);
+            } catch (e) {
+                //console.log(e)
+            }
         }
     });
+
+async function sendMessage(data) {
+    return new Promise((resolve, reject) => {
+        chrome.runtime.sendMessage(data,
+            function(response) {
+                // console.log("ddjkdj")
+                resolve(response);
+            }
+        )
+    });
+}

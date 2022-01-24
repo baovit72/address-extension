@@ -7,7 +7,7 @@
         "service_worker": "background.js"
     },
 
-    "permissions": ["storage", "activeTab", "scripting", "browsingData"],
+    "permissions": ["storage", "activeTab", "scripting", "browsingData", "alarms"],
     "host_permissions": [
         "https://*.communities.gov.uk/*",
         "https://*.service.gov.uk/*",

@@ -1,4 +1,9 @@
- chrome.runtime.onMessage.addListener(async(message, sender) => {
+ chrome.runtime.onMessage.addListener((message, sender, res) => {
+     handleMessage(message, sender, res).then(res);
+     return true;
+ });
+
+ async function handleMessage(message, sender, res) {
      const getLocationIDRaw = (postcode) => {
          console.log("fetching");
          return new Promise((resolve, reject) => {
@@ -166,4 +171,5 @@
              error: e,
          });
      }
- });
+     return "done"
+ }

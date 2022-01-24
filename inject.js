@@ -1,10 +1,10 @@
-console.log("content_script");
+//console.log("content_script");
 location.href.includes(".uk/properties/") &&
     window.addEventListener("load", async function() {
-        console.log("onload");
+        //console.log("onload");
         chrome.runtime.onMessage.addListener((message) => {
             const { matchTransaction, error, area, energyRate } = message;
-            console.log(error);
+            //console.log(error);
 
             var d = document.createElement("strong");
             d.innerHTML = "";
@@ -30,7 +30,7 @@ location.href.includes(".uk/properties/") &&
         addressElement.innerHTML = "... " + originalAddress;
         /*MAIN*/
         chrome.runtime.sendMessage({ url: location.href }, function(response) {
-            console.log("DONE");
+            //console.log("DONE");
         });
         /*UPDATE RESULT*/
     });
